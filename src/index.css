@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --bg:        #0e0d0b;
+  --bg2:       #141310;
+  --surface:   #1a1916;
+  --surface2:  #222018;
+  --border:    rgba(212,168,83,0.12);
+  --border2:   rgba(212,168,83,0.3);
+  --gold:      #d4a853;
+  --gold2:     #f0c97a;
+  --gold-dim:  rgba(212,168,83,0.5);
+  --text:      #f5f0e8;
+  --text2:     #c8bfaa;
+  --muted:     rgba(245,240,232,0.35);
+  --red:       #c0392b;
+  --serif:     'Playfair Display', Georgia, serif;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+/* Grain texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Warm vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(212,168,83,0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 60% at 100% 100%, rgba(180,120,40,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+.anim-fade-up   { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+.anim-fade-in   { animation: fadeIn 0.5s ease forwards; }
+
+/* Gold shimmer text */
+.shimmer-text {
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 40%, #fff8e7 50%, var(--gold2) 60%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Mermaid overrides — warm gold palette */
+.mermaid-wrap svg { max-width: 100% !important; height: auto !important; }
+
+.mermaid-wrap .node rect,
+.mermaid-wrap .node polygon {
+  fill: rgba(212,168,83,0.06) !important;
+  stroke: rgba(212,168,83,0.3) !important;
+  stroke-width: 1px !important;
+}
+.mermaid-wrap .node .label {
+  color: #f5ead0 !important;
+  font-family: var(--mono) !important;
+  font-size: 11px !important;
+}
+.mermaid-wrap .edgePath .path {
+  stroke: rgba(212,168,83,0.3) !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid-wrap .edgeLabel {
+  background: var(--bg) !important;
+  color: var(--gold-dim) !important;
+  font-family: var(--mono) !important;
+  font-size: 10px !important;
+}
+.mermaid-wrap .arrowheadPath {
+  fill: rgba(212,168,83,0.4) !important;
+}
+.mermaid-wrap .cluster rect {
+  fill: rgba(212,168,83,0.03) !important;
+  stroke: rgba(212,168,83,0.15) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(212,168,83,0.2); border-radius: 2px; }
+
+/* Divider line */
+.gold-line { height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); }
+
+/* Input focus ring */
+.input-wrap:focus-within {
+  border-color: rgba(212,168,83,0.35) !important;
+  box-shadow: 0 0 0 3px rgba(212,168,83,0.05), 0 8px 40px rgba(0,0,0,0.4) !important;
+}
